@@ -1,0 +1,13 @@
+id,start,end,doctor_id,patient_id,confirmed,cancelled,deleted,version
+1,2022-10-10 8:00,2022-10-10 8:15,1,1,false,false,false,0
+2,2022-10-10 8:00,2022-10-10 8:15,1,1,false,false,false,0
+3,2022-10-10 8:00,2022-10-10 8:15,1,1,false,false,false,0
+4,2022-10-10 8:00,2022-10-10 8:15,1,1,false,false,false,0
+5,2022-10-10 8:00,2022-10-10 8:15,1,1,false,false,false,0
+6,2022-10-10 8:00,2022-10-10 8:15,1,1,false,false,false,0
+7,2022-10-10 8:00,2022-10-10 8:15,1,1,false,false,false,0
+8,2022-10-10 8:00,2022-10-10 8:15,1,1,false,false,false,0
+9,2022-10-10 8:00,2022-10-10 8:15,1,1,false,false,false,0
+10,2022-10-10 8:00,2022-10-10 8:15,1,1,false,false,false,0
+
+

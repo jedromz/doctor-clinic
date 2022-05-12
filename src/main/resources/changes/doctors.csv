@@ -1,0 +1,13 @@
+id,firstname,lastname,nip,specialization,rate,deleted,version
+1,john,snow,929111345123,CARDIOLOGIST,350.00,false,0
+2,ann,marie,928111345111,LARYNGOLOGIST,250.99,false,0
+3,greg,brown,9881116645123,ORTHOPAEDIST,100.00,false,0
+4,phil,conan,954111344123,CARDIOLOGIST,400.50,false,0
+5,maria,white,913111335123,DENTIST,200.00,false,0
+6,mark,green,724111344223,ORTHOPAEDIST,199.99,false,0
+7,alex,blue,888111345123,CARDIOLOGIST,180.00,false,0
+8,paul,smith,231111345123,CARDIOLOGIST,222.22,false,0
+9,ursula,black,453111345123,ORTHOPAEDIST,350.00,false,0
+10,lana,rhoades,777111345123,DENTIST,420.69,false,0
+
+

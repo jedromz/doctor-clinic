@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <changeSet id="11052026-009" author="jedrek">
+        <createTable tableName="doctor">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="firstname" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastname" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nip" type="VARCHAR(255)"/>
+            <column name="rate" type="DECIMAL">
+                <constraints nullable="false"/>
+            </column>
+            <column name="specialization" type="VARCHAR(255)"/>
+            <column name="deleted" type="BOOLEAN"/>
+            <column name="version" type="BIGINT"/>
+        </createTable>
+
+        <createTable tableName="vacation">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="start" type="VARCHAR(255)"/>
+            <column name="end" type="VARCHAR(255)"/>
+            <column name="doctor_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="BIGINT"/>
+        </createTable>
+        <createTable tableName="availability">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="day_of_week" type="VARCHAR(255)"/>
+            <column name="start" type="VARCHAR(255)"/>
+            <column name="end" type="VARCHAR(255)"/>
+            <column name="visit_duration_in_minutes" type="BIGINT"/>
+            <column name="doctor_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="BIGINT"/>
+        </createTable>
+        <createTable tableName="patient">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="firstname" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastname" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="birthdate" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT"/>
+        </createTable>
+        <createTable tableName="visit">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="start" type="DATETIME"/>
+            <column name="end" type="DATETIME"/>
+            <column name="confirmed" type="BOOLEAN"/>
+            <column name="cancelled" type="BOOLEAN"/>
+            <column name="deleted" type="BOOLEAN"/>
+            <column name="version" type="INT"/>
+            <column name="patient_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="doctor_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="visit_token">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="token" type="VARCHAR(100)"/>
+            <column name="visit_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="BIGINT"/>
+        </createTable>
+        <createTable tableName="app_user">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="username" type="VARCHAR(100)"/>
+            <column name="password" type="VARCHAR(100)"/>
+            <column name="version" type="BIGINT"/>
+        </createTable>
+        <createTable tableName="role">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(100)"/>
+            <column name="version" type="BIGINT"/>
+        </createTable>
+        <createTable tableName="app_user_roles">
+<!--            <column autoIncrement="true" name="id" type="BIGINT">-->
+<!--                <constraints primaryKey="true"/>-->
+<!--            </column>-->
+            <column name="app_user_id" type="BIGINT"/>
+            <column name="roles_id" type="BIGINT"/>
+            <column name="version" type="BIGINT"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="visit" baseColumnNames="patient_id" constraintName="fk_patient_visit_id"
+                                 referencedTableName="patient"
+                                 referencedColumnNames="id" onDelete="CASCADE"
+                                 onUpdate="RESTRICT"/>
+        <addForeignKeyConstraint baseTableName="visit" baseColumnNames="doctor_id" constraintName="fk_doctor_visit_id"
+                                 referencedTableName="doctor"
+                                 referencedColumnNames="id" onDelete="CASCADE"
+                                 onUpdate="RESTRICT"/>
+        <addForeignKeyConstraint baseTableName="vacation" baseColumnNames="doctor_id"
+                                 constraintName="fk_doctor_vacation_id"
+                                 referencedTableName="doctor"
+                                 referencedColumnNames="id" onDelete="CASCADE"
+                                 onUpdate="RESTRICT"/>
+        <addForeignKeyConstraint baseTableName="availability" baseColumnNames="doctor_id"
+                                 constraintName="fk_doctor_availability_id"
+                                 referencedTableName="doctor"
+                                 referencedColumnNames="id" onDelete="CASCADE"
+                                 onUpdate="RESTRICT"/>
+        <addForeignKeyConstraint baseTableName="visit_token" baseColumnNames="visit_id"
+                                 constraintName="fk_visit_token_id"
+                                 referencedTableName="visit"
+                                 referencedColumnNames="id" onDelete="CASCADE"
+                                 onUpdate="RESTRICT"/>
+        <addForeignKeyConstraint baseTableName="app_user_roles" baseColumnNames="app_user_id"
+                                 constraintName="fk_app_user_id"
+                                 referencedTableName="app_user"
+                                 referencedColumnNames="id" onDelete="CASCADE"
+                                 onUpdate="RESTRICT"/>
+        <addForeignKeyConstraint baseTableName="app_user_roles" baseColumnNames="roles_id"
+                                 constraintName="fk_roles_id"
+                                 referencedTableName="role"
+                                 referencedColumnNames="id" onDelete="CASCADE"
+                                 onUpdate="RESTRICT"/>
+        <rollback>
+            <dropTable tableName="doctor"/>
+            <dropTable tableName="vacation"/>
+            <dropTable tableName="availability"/>
+            <dropTable tableName="patient"/>
+            <dropTable tableName="visit"/>
+            <dropTable tableName="visit_token"/>
+        </rollback>
+    </changeSet>
+    <changeSet author="jedrek" id="08042022-003">
+        <loadUpdateData
+                file="classpath:/changes/doctors.csv"
+                primaryKey="id"
+                schemaName="public"
+                quotchar='"'
+                separator=","
+                tableName="doctor">
+            <column header="id" name="id" type="BIGINT"/>
+            <column header="firstname" name="firstname" type="VARCHAR(255)"/>
+            <column header="lastname" name="lastname" type="VARCHAR(255)"/>
+            <column header="nip" name="nip" type="VARCHAR(100)"/>
+            <column header="specialization" name="specialization" type="VARCHAR(255)"/>
+            <column header="rate" name="rate" type="DECIMAL"/>
+            <column header="deleted" name="deleted" type="BOOLEAN"/>
+            <column header="version" name="version" type="BIGINT"/>
+        </loadUpdateData>
+        <loadUpdateData
+                file="classpath:/changes/patients.csv"
+                primaryKey="id"
+                schemaName="public"
+                quotchar='"'
+                separator=","
+                tableName="patient">
+            <column header="id" name="id" type="BIGINT"/>
+            <column header="firstname" name="firstname" type="VARCHAR(255)"/>
+            <column header="lastname" name="lastname" type="VARCHAR(255)"/>
+            <column header="birthdate" name="birthdate" type="date"/>
+            <column header="email" name="email" type="VARCHAR(255)"/>
+            <column header="deleted" name="deleted" type="BOOLEAN"/>
+            <column header="version" name="version" type="BIGINT"/>
+        </loadUpdateData>
+        <loadUpdateData
+                file="classpath:/changes/availabilities.csv"
+                primaryKey="id"
+                schemaName="public"
+                quotchar='"'
+                separator=","
+                tableName="availability">
+            <column header="id" name="id" type="BIGINT"/>
+            <column header="day_of_week" name="day_of_week" type="VARCHAR(255)"/>
+            <column header="start" name="start" type="TIME"/>
+            <column header="end" name="end" type="TIME"/>
+            <column header="visit_duration_in_minutes" name="visit_duration_in_minutes" type="BIGINT"/>
+            <column header="doctor_id" name="doctor_id" type="BIGINT"/>
+            <column header="version" name="version" type="BIGINT"/>
+        </loadUpdateData>
+        <loadUpdateData
+                file="classpath:/changes/vacations.csv"
+                primaryKey="id"
+                schemaName="public"
+                quotchar='"'
+                separator=","
+                tableName="vacation">
+            <column header="id" name="id" type="BIGINT"/>
+            <column header="start" name="start" type="DATE"/>
+            <column header="end" name="end" type="DATE"/>
+            <column header="doctor_id" name="doctor_id" type="BIGINT"/>
+        </loadUpdateData>
+        <loadUpdateData
+                file="classpath:/changes/visits.csv"
+                primaryKey="id"
+                schemaName="public"
+                quotchar='"'
+                separator=","
+                tableName="visit">
+            <column header="id" name="id" type="BIGINT"/>
+            <column header="start" name="start" type="DATETIME"/>
+            <column header="end" name="end" type="DATETIME"/>
+            <column header="doctor_id" name="doctor_id" type="BIGINT"/>
+            <column header="patient_id" name="patient_id" type="BIGINT"/>
+            <column header="confirmed" name="confirmed" type="BOOLEAN"/>
+            <column header="cancelled" name="cancelled" type="BOOLEAN"/>
+            <column header="deleted" name="deleted" type="BOOLEAN"/>
+            <column header="version" name="version" type="BIGINT"/>
+        </loadUpdateData>
+        <loadUpdateData
+                file="classpath:/changes/appusers.csv"
+                primaryKey="id"
+                schemaName="public"
+                quotchar='"'
+                separator=","
+                tableName="app_user">
+            <column header="id" name="id" type="BIGINT"/>
+            <column header="username" name="username" type="VARCHAR(255)"/>
+            <column header="password" name="password" type="VARCHAR(255)"/>
+        </loadUpdateData>
+        <loadUpdateData
+                file="classpath:/changes/roles.csv"
+                primaryKey="id"
+                schemaName="public"
+                quotchar='"'
+                separator=","
+                tableName="role">
+            <column header="id" name="id" type="BIGINT"/>
+            <column header="name" name="name" type="VARCHAR(255)"/>
+        </loadUpdateData>
+        <loadUpdateData
+                file="classpath:/changes/userrole.csv"
+                primaryKey="app_user_id,roles_id"
+                schemaName="public"
+                quotchar='"'
+                separator=","
+                tableName="app_user_roles">
+<!--            <column header="id" name="id" type="BIGINT"/>-->
+            <column header="app_user_id" name="app_user_id" type="BIGINT"/>
+            <column header="roles_id" name="roles_id" type="BIGINT"/>
+        </loadUpdateData>
+    </changeSet>
+
+</databaseChangeLog>
